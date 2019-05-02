@@ -39,7 +39,7 @@ class Figure
     private $ajout_at;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $modif_at;
 
