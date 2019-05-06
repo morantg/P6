@@ -1,25 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-<h1>{{ figure.nom }}</h1>
-
-<div>
-    <img src="{{ figure.media[0].url }}">
-</div><br>
-
-{%for image in figure.media %}
-    <img src="{{ image.url }}" width=160 height=120 >
-{% endfor %}
-  
-{{ figure.description | raw }}
-
-<ol class="breadcrumb">
-    <li class="breadcrumb-item">dans le groupe {{ figure.groupe}}</li>
-    <li class="breadcrumb-item">Ajouté le {{ figure.ajoutAt | date('d/m/Y') }} à {{ figure.ajoutAt | date('H:i') }}</li>
-    {% if figure.modifAt %}
-        <li class="breadcrumb-item">Modifié le {{ figure.modifAt | date('d/m/Y') }} à {{ figure.modifAt | date('H:i') }}</li>
-    {% endif %}   
-</ol>
-
+    <h1>{{ figure.nom }}</h1>
+    <div>
+        <img src="{{ figure.media[0].url }}">
+    </div>
+    <br>
+    {%for image in figure.media | slice(1) %}
+        <a href="{{ image.url }}"><img src="{{ image.url }}" width=160 height=120 ></a>
+    {% endfor %}
+    <div>
+        {{ figure.description | raw }}
+    </div>
+   <ol class="breadcrumb">
+        <li class="breadcrumb-item">dans le groupe {{ figure.groupe}}</li>
+        <li class="breadcrumb-item">Ajouté le {{ figure.ajoutAt | date('d/m/Y') }} à {{ figure.ajoutAt | date('H:i') }}</li>
+        {% if figure.modifAt %}
+            <li class="breadcrumb-item">Modifié le {{ figure.modifAt | date('d/m/Y') }} à {{ figure.modifAt | date('H:i') }}</li>
+        {% endif %}   
+    </ol>
 {% endblock %}
