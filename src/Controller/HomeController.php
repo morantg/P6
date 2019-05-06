@@ -26,9 +26,12 @@ class HomeController extends AbstractController
     /**
      * @Route("/{id}", name="home_show")
      */
-    public function show($id){
+    public function show($id)
+    {
         $repo = $this->getDoctrine()->getRepository(Figure::class);
+        
         $figure = $repo->find($id);
+        
         return $this->render('home/show.html.twig', [
             'figure' => $figure
         ]);
