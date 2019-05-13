@@ -7,13 +7,18 @@
 {% block body %}
     <h1>{{ figure.nom }}</h1>
     <div>
-        <img src="{{ figure.media[0].url }}">
+        <img classe="image_une" src="{{ figure.imageUne }}">
     </div>
     <br>
-    {%for image in figure.media | slice(1) %}
-        <a href="{{ image.url }}"><img src="{{ image.url }}" class="galerie"></a>
-    {% endfor %}
-    <hr>
+        {%for image in figure.media %}
+            <div class="responsive">
+                <div class="gallery">
+                    <a href="{{ image.url }}" target="_blank"><img src="{{ image.url }}" class="galerie"></a>
+                    <div class="desc">description de l'image</div>
+                </div>
+            </div>
+        {% endfor %}
+    <div class="clearfix"></div>
     <div>
         {{ figure.description | raw }}
     </div>

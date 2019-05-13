@@ -48,6 +48,11 @@ class Figure
      */
     private $media;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $imageUne;
+
     public function __construct()
     {
         $this->media = new ArrayCollection();
@@ -145,6 +150,18 @@ class Figure
                 $medium->setFigures(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImageUne(): ?string
+    {
+        return $this->imageUne;
+    }
+
+    public function setImageUne(string $imageUne): self
+    {
+        $this->imageUne = $imageUne;
 
         return $this;
     }

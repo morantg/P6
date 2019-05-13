@@ -19,18 +19,19 @@ class FigureFixtures extends Fixture
             $figure = new Figure();
 
             $content = '<p>';
-            $content .= join($faker->paragraphs(), '</p><p>');
+            $content .= join($faker->paragraphs(15), '</p><p>');
             $content .= '</p>';
 
-            $figure->setNom($faker->word(8))
+            $figure->setNom($faker->word(10))
                    ->setDescription($content)
-                   ->setGroupe($faker->word(8))
-                   ->setAjoutAt($faker->dateTimeBetween('-6 months'));
+                   ->setGroupe($faker->word(10))
+                   ->setAjoutAt($faker->dateTimeBetween('-6 months'))
+                   ->setImageUne($faker->imageUrl());
 
             $manager->persist($figure);
             
             // Création de 2 à 6 média
-            for($j = 0; $j <= mt_rand(2,6); $j++){
+            for($j = 0; $j <= mt_rand(4,8); $j++){
                 $media = new Media();
                 $media->setFormat('jpg')
                       ->setUrl($faker->imageUrl())
