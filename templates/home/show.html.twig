@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+   <link href="{{ asset('css/show.css') }}" rel="stylesheet" />
+{% endblock %}
+
 {% block body %}
     <h1>{{ figure.nom }}</h1>
     <div>
@@ -7,11 +11,13 @@
     </div>
     <br>
     {%for image in figure.media | slice(1) %}
-        <a href="{{ image.url }}"><img src="{{ image.url }}" width=160 height=120 ></a>
+        <a href="{{ image.url }}"><img src="{{ image.url }}" class="galerie"></a>
     {% endfor %}
+    <hr>
     <div>
         {{ figure.description | raw }}
     </div>
+    <hr>
    <ol class="breadcrumb">
         <li class="breadcrumb-item">dans le groupe {{ figure.groupe}}</li>
         <li class="breadcrumb-item">Ajouté le {{ figure.ajoutAt | date('d/m/Y') }} à {{ figure.ajoutAt | date('H:i') }}</li>
