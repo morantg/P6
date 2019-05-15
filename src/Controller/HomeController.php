@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Figure;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
@@ -24,6 +27,39 @@ class HomeController extends AbstractController
     }
 
     /**
+     * @Route("/new", name="figure_create")
+     */
+    public function create(Request $request, ObjectManager $manager)
+    {
+        $figure = new Figure();
+
+        $form = $this->createFormBuilder($figure)
+                     ->add('nom')
+                     ->add('description')
+                     ->add('groupe')
+                     ->add('image_une')
+                     ->add('save', SubmitType::class, [
+                         'label' => 'Enregistrer'
+                     ])
+                     ->getForm();
+        
+        $form->handleRequest($request);
+        
+        if($form->isSubmitted() && $form->isValid()) {
+            $figure->setAjoutAt(new \Datetime);
+
+            $manager->persist($figure);
+            $manager->flush();
+
+            return $this->redirectToRoute('home_show', ['id' => $figure->getId()]);
+        }
+
+        return $this->render('home/create.html.twig', [
+            'formFigure' => $form->createView()
+            ]);
+    }
+
+    /**
      * @Route("/{id}", name="home_show")
      */
     public function show($id)
@@ -36,6 +72,7 @@ class HomeController extends AbstractController
             'figure' => $figure
         ]);
     }
+
 
 
 
