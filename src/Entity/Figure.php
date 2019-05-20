@@ -154,12 +154,12 @@ class Figure
         return $this;
     }
 
-    public function getImageUne(): ?string
+    public function getImageUne()
     {
         return $this->imageUne;
     }
 
-    public function setImageUne(string $imageUne): self
+    public function setImageUne($imageUne)
     {
         $this->imageUne = $imageUne;
 
