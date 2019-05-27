@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Media;
 use App\Entity\Figure;
 use App\Entity\Groupe;
+use App\Form\FigureType;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,22 +39,8 @@ class HomeController extends AbstractController
     public function create(Request $request, ObjectManager $manager)
     {
         $figure = new Figure();
-        
-        
-        $form = $this->createFormBuilder($figure)
-                     ->add('nom')
-                     ->add('description')
-                     ->add('image_une', Filetype::class, ['label' => 'Image à la une'])
-                     ->add('groupe', EntityType::class, [
-                         'class' => Groupe::class,
-                         'choice_label' => 'nom'
-                     ])
-                     ->add('save', SubmitType::class, [
-                         'label' => 'Enregistrer'
-                     ])
-                     ->getForm();
+        $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
-        
         
         if($form->isSubmitted() && $form->isValid()) {
             
