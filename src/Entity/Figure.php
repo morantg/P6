@@ -29,11 +29,6 @@ class Figure
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $groupe;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $ajout_at;
@@ -52,6 +47,12 @@ class Figure
      * @ORM\Column(type="string", length=255)
      */
     private $imageUne;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Groupe", inversedBy="figures")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $groupe;
 
     public function __construct()
     {
@@ -83,18 +84,6 @@ class Figure
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getGroupe(): ?string
-    {
-        return $this->groupe;
-    }
-
-    public function setGroupe(string $groupe): self
-    {
-        $this->groupe = $groupe;
 
         return $this;
     }
@@ -162,6 +151,18 @@ class Figure
     public function setImageUne($imageUne)
     {
         $this->imageUne = $imageUne;
+
+        return $this;
+    }
+
+    public function getGroupe()
+    {
+        return $this->groupe;
+    }
+
+    public function setGroupe($groupe)
+    {
+        $this->groupe = $groupe;
 
         return $this;
     }

@@ -28,7 +28,7 @@
     </div>
     <hr>
    <ol class="breadcrumb">
-        <li class="breadcrumb-item">dans le groupe {{ figure.groupe}}</li>
+        <li class="breadcrumb-item">dans le groupe {{ figure.groupe.nom}}</li>
         <li class="breadcrumb-item">Ajouté le {{ figure.ajoutAt | date('d/m/Y') }} à {{ figure.ajoutAt | date('H:i') }}</li>
         {% if figure.modifAt %}
             <li class="breadcrumb-item">Modifié le {{ figure.modifAt | date('d/m/Y') }} à {{ figure.modifAt | date('H:i') }}</li>

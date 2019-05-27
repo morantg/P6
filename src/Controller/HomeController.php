@@ -2,15 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\Media;
 use App\Entity\Figure;
+use App\Entity\Groupe;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class HomeController extends AbstractController
 {
@@ -35,21 +38,29 @@ class HomeController extends AbstractController
     public function create(Request $request, ObjectManager $manager)
     {
         $figure = new Figure();
-
+        
+        
         $form = $this->createFormBuilder($figure)
                      ->add('nom')
                      ->add('description')
-                     ->add('groupe')
                      ->add('image_une', Filetype::class, ['label' => 'Image à la une'])
+                     ->add('groupe', EntityType::class, [
+                         'class' => Groupe::class,
+                         'choice_label' => 'nom'
+                     ])
                      ->add('save', SubmitType::class, [
                          'label' => 'Enregistrer'
                      ])
                      ->getForm();
-        
         $form->handleRequest($request);
         
+        
         if($form->isSubmitted() && $form->isValid()) {
+            
+            // ajout de la date courante à l'article
             $figure->setAjoutAt(new \Datetime);
+            
+            // upload de l'image à la une
             $file = $figure->getImageUne();
             $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
 
@@ -57,9 +68,8 @@ class HomeController extends AbstractController
                 $this->getParameter('upload_directory'),
                 $fileName
             );
-
             $figure->setImageUne($fileName);
-            
+
             $manager->persist($figure);
             $manager->flush();
 
