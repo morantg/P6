@@ -42,7 +42,7 @@ class Figure
     private $modif_at;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="figures")
+     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="figures", cascade={"persist"})
      */
     private $media;
 

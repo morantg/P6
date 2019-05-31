@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MediaRepository")
@@ -70,5 +71,12 @@ class Media
         $this->figures = $figures;
 
         return $this;
+    }
+
+    public function addFigure(Figure $figure)
+    {
+        if (!$this->figures->contains($figure)) {
+            $this->figures->add($figure);
+        }
     }
 }

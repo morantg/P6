@@ -43,7 +43,7 @@ class HomeController extends AbstractController
         $form->handleRequest($request);
         
         if($form->isSubmitted() && $form->isValid()) {
-            
+
             // ajout de la date courante à l'article
             $figure->setAjoutAt(new \Datetime);
             
