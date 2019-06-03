@@ -2,6 +2,10 @@
 
 {% form_theme formFigure 'bootstrap_4_layout.html.twig' %}
 
+{% block stylesheets %}
+   <link href="{{ asset('css/create.css') }}" rel="stylesheet" />
+{% endblock %}
+
 {% block javascripts %}
     <script src="{{ asset('js/app.js') }}"></script>
 {% endblock %}

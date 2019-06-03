@@ -1,7 +1,7 @@
 var $collectionHolder;
 
 // setup an "add a media" link
-var $addMediaButton = $('<button type="button" class="add_media_link">Add a media</button>');
+var $addMediaButton = $('<button type="button" class="add_media_link btn btn-primary">Add a media</button>');
 var $newLinkLi = $('<li></li>').append($addMediaButton);
 
 jQuery(document).ready(function() {
