@@ -44,11 +44,15 @@ class HomeController extends AbstractController
         
         if($form->isSubmitted() && $form->isValid()) {
 
+           
+
             // ajout de la date courante à l'article
             $figure->setAjoutAt(new \Datetime);
             
             // upload de l'image à la une
             $file = $figure->getImageUne();
+            
+            
             $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
 
             $file->move(
@@ -56,6 +60,39 @@ class HomeController extends AbstractController
                 $fileName
             );
             $figure->setImageUne($fileName);
+            
+            // upload media
+           //$files= $figure->getMedia();
+           
+           $files = $request->files->get('figure')['media'];
+           $media = $figure->getMedia();
+           
+           $tabUrl = array();
+           $i = 0;
+           
+           foreach ($files as $fileMedia)
+           {
+                foreach ($fileMedia as $fileMedium){
+                $fileNameMedia = $this->generateUniqueFileName().'.'.$fileMedium->guessExtension();
+
+                $fileMedium->move(
+                $this->getParameter('upload_directory'),
+                $fileNameMedia
+                );
+
+                $tabUrl[$i] = $fileNameMedia;
+                $i++; 
+                }
+            }
+
+            $j=0;
+            
+            foreach ($media as $medium)
+            {
+                $medium->setUrl($tabUrl[$j]);  
+                $j++;
+                dump($medium);
+            }
 
             $manager->persist($figure);
             $manager->flush();
@@ -91,8 +128,4 @@ class HomeController extends AbstractController
             'figure' => $figure
         ]);
     }
-
-
-
-
 }

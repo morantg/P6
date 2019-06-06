@@ -17,8 +17,13 @@
         {%for image in figure.media %}
             <div class="responsive">
                 <div class="gallery">
-                    <a href="{{ image.url }}" target="_blank"><img src="{{ image.url }}" class="galerie"></a>
-                    <div class="desc">description de l'image</div>
+                    {% if '.jpeg' in figure.ImageUne %}
+                        <a href="{{ asset('uploads/' ~ image.url) }}" target="_blank"><img src="{{ asset('uploads/' ~ image.url) }}" class="galerie"></a>
+                        <div class="desc">description de l'image</div>
+                    {% else %}
+                        <a href="{{ image.url }}" target="_blank"><img src="{{ image.url }}" class="galerie"></a>
+                        <div class="desc">description de l'image</div>
+                    {% endif %}     
                 </div>
             </div>
         {% endfor %}
