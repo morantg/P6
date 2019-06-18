@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\File;
 
 class HomeController extends AbstractController
 {
@@ -38,65 +39,33 @@ class HomeController extends AbstractController
      */
     public function create(Request $request, ObjectManager $manager)
     {
+        
         $figure = new Figure();
+        
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
-        
-        if($form->isSubmitted() && $form->isValid()) {
-
-           
-
+        if($form->isSubmitted() && $form->isValid()){
+            
             // ajout de la date courante à l'article
             $figure->setAjoutAt(new \Datetime);
             
             // upload de l'image à la une
             $file = $figure->getImageUne();
-            
-            
+
             $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
 
             $file->move(
                 $this->getParameter('upload_directory'),
                 $fileName
             );
+
             $figure->setImageUne($fileName);
-            
-            // upload media
-           //$files= $figure->getMedia();
-           
-           $files = $request->files->get('figure')['media'];
-           $media = $figure->getMedia();
-           
-           $tabUrl = array();
-           $i = 0;
-           
-           foreach ($files as $fileMedia)
-           {
-                foreach ($fileMedia as $fileMedium){
-                $fileNameMedia = $this->generateUniqueFileName().'.'.$fileMedium->guessExtension();
 
-                $fileMedium->move(
-                $this->getParameter('upload_directory'),
-                $fileNameMedia
-                );
-
-                $tabUrl[$i] = $fileNameMedia;
-                $i++; 
-                }
-            }
-
-            $j=0;
-            
-            foreach ($media as $medium)
-            {
-                $medium->setUrl($tabUrl[$j]);  
-                $j++;
-                dump($medium);
-            }
-
+            // persist
             $manager->persist($figure);
             $manager->flush();
-
+            
+            //on redirige vers la figure crée
             return $this->redirectToRoute('home_show', ['id' => $figure->getId()]);
         }
 
@@ -105,7 +74,48 @@ class HomeController extends AbstractController
             ]);
     }
 
-     /**
+    /**
+     * @Route("/{id}/edit", name="figure_edit")
+     */
+    public function edit(Figure $figure, Request $request, ObjectManager $manager)
+    {
+        $figure->setImageUne(
+            new File($this->getParameter('upload_directory').'/'.$figure->getImageUne())
+        );
+
+        $form = $this->createForm(FigureType::class, $figure);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            
+            // ajout de la date courante à l'article
+            $figure->setModifAt(new \Datetime);
+            
+            // upload de l'image à la une
+            $file = $figure->getImageUne();
+            
+            $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
+
+            $file->move(
+                $this->getParameter('upload_directory'),
+                $fileName
+            );
+            $figure->setImageUne($fileName);
+
+            // persist
+            $manager->persist($figure);
+            $manager->flush();
+            
+            //on redirige vers la figure crée
+            return $this->redirectToRoute('home_show', ['id' => $figure->getId()]);
+        }
+
+        return $this->render('home/edit.html.twig', [
+            'formFigure' => $form->createView()
+            ]);
+    }
+
+    /**
      * @return string
      */
     private function generateUniqueFileName()
@@ -123,7 +133,7 @@ class HomeController extends AbstractController
         $repo = $this->getDoctrine()->getRepository(Figure::class);
         
         $figure = $repo->find($id);
-        
+       
         return $this->render('home/show.html.twig', [
             'figure' => $figure
         ]);

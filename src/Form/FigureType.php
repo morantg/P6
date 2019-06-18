@@ -21,23 +21,16 @@ class FigureType extends AbstractType
         $builder
             ->add('nom')
             ->add('description')
-            ->add('image_une', Filetype::class, ['label' => 'Image à la une'])
+            ->add('image_une', Filetype::class, [
+                'label' => 'Image à la une'
+                ])
             ->add('groupe', EntityType::class, [
                 'class' => Groupe::class,
                 'choice_label' => 'nom'
-            ])
-            ->add('media', CollectionType::class, [
-                'label' => false,
-                'entry_type' => MediaType::class,
-                'entry_options' => ['label' => false],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false
-            ])
+                ])
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer'
             ])
-            
         ;
     }
 

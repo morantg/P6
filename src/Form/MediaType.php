@@ -15,7 +15,9 @@ class MediaType extends AbstractType
     {
         $builder
             ->add('format',TextType::class)
-            ->add('url',FileType::class)
+            ->add('url',FileType::class, [
+                'data_class' => null
+            ])
         ;
     }
 
