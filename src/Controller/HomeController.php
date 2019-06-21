@@ -50,11 +50,13 @@ class HomeController extends AbstractController
             $figure->setAjoutAt(new \Datetime);
             
             // upload de l'image à la une
-            $file = $figure->getImageUne();
+            //$file = $figure->getImageUne();
+            /** @var UploadedFile $uploadedFile */
+            $uploadedFile = $form['image_unename']->getData();
 
-            $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
+            $fileName = $this->generateUniqueFileName().'.'.$uploadedFile->guessExtension();
 
-            $file->move(
+            $uploadedFile->move(
                 $this->getParameter('upload_directory'),
                 $fileName
             );
@@ -79,10 +81,7 @@ class HomeController extends AbstractController
      */
     public function edit(Figure $figure, Request $request, ObjectManager $manager)
     {
-        $figure->setImageUne(
-            new File($this->getParameter('upload_directory').'/'.$figure->getImageUne())
-        );
-
+        
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
 
@@ -92,15 +91,20 @@ class HomeController extends AbstractController
             $figure->setModifAt(new \Datetime);
             
             // upload de l'image à la une
-            $file = $figure->getImageUne();
+            /** @var UploadedFile $uploadedFile */
+            $uploadedFile = $form['image_unename']->getData();
             
-            $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
+            
+            if($uploadedFile){
+            
+            $fileName = $this->generateUniqueFileName().'.'.$uploadedFile->guessExtension();
 
-            $file->move(
+            $uploadedFile->move(
                 $this->getParameter('upload_directory'),
                 $fileName
             );
             $figure->setImageUne($fileName);
+            }
 
             // persist
             $manager->persist($figure);

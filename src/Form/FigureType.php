@@ -21,8 +21,10 @@ class FigureType extends AbstractType
         $builder
             ->add('nom')
             ->add('description')
-            ->add('image_une', Filetype::class, [
-                'label' => 'Image à la une'
+            ->add('image_unename', Filetype::class, [
+                'label' => 'Image à la une',
+                'required' => false,
+                'mapped' => false,
                 ])
             ->add('groupe', EntityType::class, [
                 'class' => Groupe::class,
