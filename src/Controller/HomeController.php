@@ -101,9 +101,13 @@ class HomeController extends AbstractController
     /**
      * @Route("/figure/{id}/edit", name="figure_edit")
      */
-    public function edit(Figure $figure, Request $request, ObjectManager $manager)
+    public function edit(Figure $figure, Request $request, ObjectManager $manager, UserInterface $user)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
+        if($user != $figure->getUser()){
+            //$this->denyAccessUnlessGranted('ROLE_ADMIN');
+            return $this->redirectToRoute('home_show', ['id' => $figure->getId()]);
+        }
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
 
