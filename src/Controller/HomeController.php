@@ -2,20 +2,22 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Media;
 use App\Entity\Figure;
 use App\Entity\Groupe;
 use App\Form\FigureType;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\File;
 
 class HomeController extends AbstractController
 {
@@ -37,15 +39,16 @@ class HomeController extends AbstractController
     /**
      * @Route("/new", name="figure_create")
      */
-    public function create(Request $request, ObjectManager $manager)
+    public function create(Request $request, ObjectManager $manager, UserInterface $user)
     {
-        
         $figure = new Figure();
         
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
         
         if($form->isSubmitted() && $form->isValid()){
+            //ajout de l'utilisateur à la figure
+            $figure->setUser($user);
             
             // ajout de la date courante à l'article
             $figure->setAjoutAt(new \Datetime);
@@ -96,11 +99,11 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="figure_edit")
+     * @Route("/figure/{id}/edit", name="figure_edit")
      */
     public function edit(Figure $figure, Request $request, ObjectManager $manager)
     {
-        
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
 
@@ -155,7 +158,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="home_show")
+     * @Route("/figure/{id}", name="home_show")
      */
     public function show($id)
     {

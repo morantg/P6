@@ -53,10 +53,15 @@ class Figure
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Groupe", inversedBy="figures")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $groupe;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="figures_user")
+     */
+    private $user;
+
+  
     public function __construct()
     {
         $this->media = new ArrayCollection();
@@ -158,14 +163,26 @@ class Figure
         return $this;
     }
 
-    public function getGroupe()
+    public function getGroupe(): ?Groupe
     {
         return $this->groupe;
     }
 
-    public function setGroupe($groupe)
+    public function setGroupe(?Groupe $groupe): self
     {
         $this->groupe = $groupe;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
