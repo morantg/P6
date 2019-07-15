@@ -21,7 +21,7 @@ class FigureType extends AbstractType
         $builder
             ->add('nom')
             ->add('description')
-            ->add('image_unename', Filetype::class, [
+            ->add('image_une', Filetype::class, [
                 'label' => 'Image à la une',
                 'required' => false,
                 'mapped' => false,
@@ -30,6 +30,21 @@ class FigureType extends AbstractType
                 'class' => Groupe::class,
                 'choice_label' => 'nom'
                 ])
+            ->add('media0', Filetype::class, [
+                'mapped' => false,
+                'required' => false,
+                'label' => 'media 1',
+            ])
+            ->add('media1', Filetype::class, [
+                'mapped' => false,
+                'required' => false,
+                'label' => 'media 2',
+            ])
+            ->add('media2', Filetype::class, [
+                'mapped' => false,
+                'required' => false,
+                'label' => 'media 3',
+            ])
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer'
             ])
