@@ -7,23 +7,14 @@
 {% block body %}
     <h1>{{ figure.nom }}</h1>
     <div>
-        {% if '.jpeg' in figure.ImageUne %}
-            <img classe="image_une" src="{{ asset('uploads/' ~ figure.ImageUne) }}">
-        {% else %}
-            <img classe="image_une" src="{{ figure.ImageUne }}">
-        {% endif %} 
+        <img classe="image_une" src="{{ asset('uploads/' ~ figure.ImageUne) }}">
     </div>
     <br>
         {%for image in figure.media %}
             <div class="responsive">
                 <div class="gallery">
-                    {% if '.jpeg' in figure.ImageUne %}
-                        <a href="{{ asset('uploads/' ~ image.url) }}" target="_blank"><img src="{{ asset('uploads/' ~ image.url) }}" class="galerie"></a>
-                        <div class="desc">description de l'image</div>
-                    {% else %}
-                        <a href="{{ image.url }}" target="_blank"><img src="{{ image.url }}" class="galerie"></a>
-                        <div class="desc">description de l'image</div>
-                    {% endif %}     
+                    <a href="{{ asset('uploads/' ~ image.url) }}" target="_blank"><img src="{{ asset('uploads/' ~ image.url) }}" class="galerie"></a>
+                    <div class="desc">description de l'image</div>
                 </div>
             </div>
         {% endfor %}

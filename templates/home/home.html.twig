@@ -16,16 +16,12 @@
         <div class="row">
             {%for figure in figures %}
                 <div class="col-md-3">
-                    <a href="{{ path('home_show', {'id': figure.id}) }}">
+                    <a href="{{ path('figure_show', {'id': figure.id}) }}">
                         <div class="card mb-3">
                             <div class="card-body">
                                 <h5 class="card-title">{{ figure.nom }}</h5>
                             </div>
-                            {% if '.jpeg' in figure.ImageUne %}
-                                <img src="{{ asset('uploads/' ~ figure.ImageUne) }}" class="responsive-card">
-                            {% else %}
-                                <img src="{{ figure.ImageUne }}" class="responsive-card">
-                            {% endif %}    
+                            <img src="{{ asset('uploads/' ~ figure.ImageUne) }}" class="responsive-card">
                             <div class="card-footer text-muted">
                                 le {{ figure.ajoutAt | date('d/m/Y') }}
                             </div>
