@@ -23,13 +23,16 @@ class FigureController extends AbstractController
 {
   
     /**
-     * @Route("/figure/{id}", name="figure_show")
+     * @Route("/figure/{slug}-{id}", name="figure_show", requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function show($id)
+    public function show(Figure $figure, string $slug)
     {
-        $repo = $this->getDoctrine()->getRepository(Figure::class);
-        $figure = $repo->find($id);
-       
+        if ($figure->getSlug() !== $slug) {
+            return $this->redirectToRoute('figure_show', [
+                'id' => $figure->getId(),
+                'slug' => $figure->getSlug()
+            ], 301);
+        }
         return $this->render('figure/show.html.twig', [
             'figure' => $figure
         ]);

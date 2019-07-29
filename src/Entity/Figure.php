@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Cocur\Slugify\Slugify;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FigureRepository")
@@ -82,6 +83,11 @@ class Figure
         $this->nom = $nom;
 
         return $this;
+    }
+
+    public function getSlug(): string
+    {
+        return (new Slugify())->slugify($this->nom);
     }
 
     public function getDescription(): ?string

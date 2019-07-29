@@ -61,7 +61,10 @@ class AdminFigureController extends AbstractController
             $manager->persist($figure);
             $manager->flush();
             
-            return $this->redirectToRoute('figure_show', ['id' => $figure->getId()]);
+            return $this->redirectToRoute('figure_show', [
+                'id' => $figure->getId(),
+                'slug' => $figure->getSlug(),
+                ]);
         }
         return $this->render('admin/figure/create.html.twig', [
             'formFigure' => $form->createView()
@@ -69,13 +72,24 @@ class AdminFigureController extends AbstractController
     }
 
     /**
-     * @Route("/admin/figure/{id}", name="figure_edit", methods="GET|POST")
+     * @Route("/admin/figure/{slug}-{id}", name="figure_edit", methods="GET|POST", requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function edit(Figure $figure, Request $request, ObjectManager $manager, UserInterface $user = null)
+    public function edit(Figure $figure, Request $request, ObjectManager $manager, UserInterface $user = null, string $slug)
     {
+        //vérification utilisateur
         if($user != $figure->getUser()){
             //$this->denyAccessUnlessGranted('ROLE_ADMIN');
-            return $this->redirectToRoute('figure_show', ['id' => $figure->getId()]);
+            return $this->redirectToRoute('figure_show', [
+                'id' => $figure->getId(),
+                'slug' => $figure->getSlug()
+                ]);
+        }
+        //vérification slug
+        if ($figure->getSlug() !== $slug) {
+            return $this->redirectToRoute('figure_edit', [
+                'id' => $figure->getId(),
+                'slug' => $figure->getSlug()
+            ], 301);
         }
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);

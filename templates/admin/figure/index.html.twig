@@ -19,7 +19,7 @@
       <tr>
         <td>{{ figure.nom }}</td>
         <td>
-          <a href="{{ path('figure_edit', {id: figure.id}) }}" class="btn btn-secondary">Editer</a>
+          <a href="{{ path('figure_edit', {id: figure.id, 'slug': figure.slug}) }}" class="btn btn-secondary">Editer</a>
           <form method="post" action="{{ path('figure_delete', {id: figure.id}) }}" style="display: inline-block" onsubmit="return confirm('Êtes vous vraiment sûr ?')">
             <input type="hidden" name="_method" value="DELETE">
             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ figure.id) }}">

@@ -16,7 +16,7 @@
         <div class="row">
             {%for figure in figures %}
                 <div class="col-md-3">
-                    <a href="{{ path('figure_show', {'id': figure.id}) }}">
+                    <a href="{{ path('figure_show', {'id': figure.id, 'slug': figure.slug}) }}">
                         <div class="card mb-3">
                             <div class="card-body">
                                 <h5 class="card-title">{{ figure.nom }}</h5>
