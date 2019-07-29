@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Gérer les Figures' %}
+
+{% block body %}
+  <div class="container mt-4">
+
+    <h1>Gérer les Figures</h1>
+
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Titre</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for figure in figures %}
+      <tr>
+        <td>{{ figure.nom }}</td>
+        <td>
+          <a href="{{ path('figure_edit', {id: figure.id}) }}" class="btn btn-secondary">Editer</a>
+          <form method="post" action="{{ path('figure_delete', {id: figure.id}) }}" style="display: inline-block" onsubmit="return confirm('Êtes vous vraiment sûr ?')">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ figure.id) }}">
+            <button class="btn btn-danger">Supprimer</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="text-right">
+      <a href="{{ path('figure_create') }}" class="btn btn-primary">Créer une nouvelle figure</a>
+    </div>
+
+  </div>
+{% endblock %}
