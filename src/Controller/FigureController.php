@@ -68,7 +68,7 @@ class FigureController extends AbstractController
     }
 
     /**
-     * @Route("/figure/{id}/edit", name="figure_edit")
+     * @Route("/figure/{id}/edit", name="figure_edit", methods="GET|POST")
      */
     public function edit(Figure $figure, Request $request, ObjectManager $manager, UserInterface $user = null)
     {
@@ -113,7 +113,8 @@ class FigureController extends AbstractController
             return $this->redirectToRoute('figure_show', ['id' => $figure->getId()]);
         }
         return $this->render('figure/edit.html.twig', [
-            'formFigure' => $form->createView()
+            'formFigure' => $form->createView(),
+            'figure' => $figure,
         ]);
     }
 
@@ -128,5 +129,22 @@ class FigureController extends AbstractController
         return $this->render('figure/show.html.twig', [
             'figure' => $figure
         ]);
+    }
+
+    /**
+     * @Route("/figure/{id}/edit", name="figure_delete", methods="DELETE")
+     * @param Figure $figure
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function delete(Figure $figure, Request $request, ObjectManager $manager) {
+        if ($this->isCsrfTokenValid('delete' . $figure->getId(), $request->get('_token'))) {
+            $media = $figure->getMedia();
+            foreach($media as $medium){
+            $manager->remove($medium);
+            }
+            $manager->remove($figure);
+            $manager->flush();
+        }
+        return $this->redirectToRoute('home');
     }
 }

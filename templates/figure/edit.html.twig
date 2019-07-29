@@ -22,6 +22,12 @@
         {{ form_row(formFigure.media2 ) }}
     {{ form_end(formFigure)}}
 
+    <form method="post" action="{{ path('figure_delete', {id: figure.id}) }}" onsubmit="return confirm('Êtes vous vraiment sûr ?')">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ figure.id) }}">
+        <button class="btn btn-danger">Supprimer</button>
+    </form>
+
 
 {% endblock %}
 
