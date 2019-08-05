@@ -30,4 +30,18 @@
             <li class="breadcrumb-item">Modifié le {{ figure.modifAt | date('d/m/Y') }} à {{ figure.modifAt | date('H:i') }}</li>
         {% endif %}   
     </ol>
+    <section id="commentaires">
+        {% for comment in figure.comments %}
+        <div class="comment">
+            <div class="row">
+                <div class="col-3">
+                    {{ comment.user.username }}
+                </div>
+                <div class="col">
+                    {{ comment.content | raw }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
 {% endblock %}
