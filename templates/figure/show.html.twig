@@ -31,6 +31,7 @@
         {% endif %}   
     </ol>
     <section id="commentaires">
+        <h2>{{ figure.comments | length }} Commentaires :</h2>
         {% for comment in figure.comments %}
         <div class="comment">
             <div class="row">
@@ -43,5 +44,14 @@
             </div>
         </div>
         {% endfor %}
+
+        {% if app.user %}
+        {{ form_start(commentForm) }}
+        {{ form_row(commentForm.content) }}
+        <button type="submit" class="btn btn-success">Commenter !</button>
+        {{ form_end(commentForm) }}
+        {% else %}
+        <a href="{{ path('user_login') }}"><h3>Connectez-vous pour laisser un message !</h3></a>
+        {% endif %}
     </section>
 {% endblock %}
