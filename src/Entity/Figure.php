@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FigureRepository")
+ * @UniqueEntity("nom")
  */
 class Figure
 {
@@ -19,7 +22,7 @@ class Figure
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $nom;
 
@@ -27,11 +30,6 @@ class Figure
      * @ORM\Column(type="text")
      */
     private $description;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $groupe;
 
     /**
      * @ORM\Column(type="datetime")
@@ -44,7 +42,7 @@ class Figure
     private $modif_at;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="figures")
+     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="figures", cascade={"persist"})
      */
     private $media;
 
@@ -52,6 +50,12 @@ class Figure
      * @ORM\Column(type="string", length=255)
      */
     private $imageUne;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Groupe", inversedBy="figures")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $groupe;
 
     public function __construct()
     {
@@ -83,18 +87,6 @@ class Figure
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getGroupe(): ?string
-    {
-        return $this->groupe;
-    }
-
-    public function setGroupe(string $groupe): self
-    {
-        $this->groupe = $groupe;
 
         return $this;
     }
@@ -154,14 +146,26 @@ class Figure
         return $this;
     }
 
-    public function getImageUne(): ?string
+    public function getImageUne()
     {
         return $this->imageUne;
     }
 
-    public function setImageUne(string $imageUne): self
+    public function setImageUne($imageUne)
     {
         $this->imageUne = $imageUne;
+
+        return $this;
+    }
+
+    public function getGroupe()
+    {
+        return $this->groupe;
+    }
+
+    public function setGroupe($groupe)
+    {
+        $this->groupe = $groupe;
 
         return $this;
     }

@@ -15,10 +15,10 @@
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Acceuil</a>
+                        <a class="nav-link" href="/">Acceuil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Figures</a>
+                        <a class="nav-link" href="{{ path('figure_create') }}">Création d'une figure</a>
                     </li>
                 </ul>
             </div>
@@ -26,6 +26,11 @@
         <div class="container">
             {% block body %}{% endblock %}
         </div>
+        <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous">
+        </script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

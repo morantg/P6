@@ -21,7 +21,11 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ figure.nom }}</h5>
                             </div>
-                            <img src="{{ figure.imageUne }}" class="responsive-card">
+                            {% if '.jpeg' in figure.ImageUne %}
+                                <img src="{{ asset('uploads/' ~ figure.ImageUne) }}" class="responsive-card">
+                            {% else %}
+                                <img src="{{ figure.ImageUne }}" class="responsive-card">
+                            {% endif %}    
                             <div class="card-footer text-muted">
                                 le {{ figure.ajoutAt | date('d/m/Y') }}
                             </div>

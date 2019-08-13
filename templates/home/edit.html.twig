@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+   <link href="{{ asset('css/create.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/app.js') }}"></script>
+{% endblock %}
+
+
+{% block body %}
+
+<h1>Edition d'une Figure</h1>
+
+{{ form_start(formFigure) }}
+
+    {{ form_row(formFigure.nom) }}
+    {{ form_row(formFigure.image_une) }}
+    {{ form_row(formFigure.description) }}
+    {{ form_row(formFigure.groupe) }}
+    {{ form_row(formFigure.media0) }}
+    {{ form_row(formFigure.media1) }}
+    {{ form_row(formFigure.media2 ) }}
+
+{{ form_end(formFigure)}}
+
+
+{% endblock %}
+
