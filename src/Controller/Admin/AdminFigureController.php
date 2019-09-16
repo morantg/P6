@@ -30,8 +30,9 @@ class AdminFigureController extends AbstractController
         $figure = new Figure();
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
-        
+
         if($form->isSubmitted() && $form->isValid()){
+
             $figure->setUser($user);
             $figure->setAjoutAt(new \Datetime);
             // upload de l'image à la une
@@ -43,21 +44,20 @@ class AdminFigureController extends AbstractController
                 $fileName
             );
             $figure->setImageUne($fileName);
-            //upload des media
-            for($i = 0; $i < 3; $i++){
-                $media = new Media();
-                $uploadedMedia = $form['media' . $i]->getData();
-                if($uploadedMedia){
-                    $fileMediaName = md5(uniqid()).'.'.$uploadedMedia->guessExtension();
-                    $uploadedMedia->move(
-                        $this->getParameter('upload_directory'),
-                        $fileMediaName
-                    );
-                    $media->setUrl($fileMediaName);
-                    $media->setFormat('image');
-                    $figure->addMedium($media);
-                }
+           
+            $uploadedMedia = $form['media']->getData();
+           
+            foreach ($uploadedMedia as $uploadedMedium ){
+                $uploadedMedia = $uploadedMedium->getFile();
+                $fileMediaName = md5(uniqid()).'.'.$uploadedMedia->guessExtension();
+                $uploadedMedia->move(
+                    $this->getParameter('upload_directory'),
+                    $fileMediaName
+                );
+                $uploadedMedium->setUrl($fileMediaName);
+                $uploadedMedium->setFormat('image');
             }
+            
             $manager->persist($figure);
             $manager->flush();
             
@@ -109,8 +109,9 @@ class AdminFigureController extends AbstractController
             }
             //upload des media
             $media = $figure->getMedia();
-            foreach($media as $a => $medium){
-                $uploadedMedia = $form['media' . $a]->getData();
+
+            foreach($media as $medium){
+                $uploadedMedia = $medium->getFile();
                 if($uploadedMedia){
                     $fileMediaName = md5(uniqid()).'.'.$uploadedMedia->guessExtension();
 
@@ -124,15 +125,16 @@ class AdminFigureController extends AbstractController
             $manager->persist($figure);
             $manager->flush();
             
-            return $this->redirectToRoute('figure_show', ['id' => $figure->getId()]);
+            return $this->redirectToRoute('figure_show', [
+                'id' => $figure->getId(),
+                'slug' => $figure->getSlug()
+            ], 301);
         }
         return $this->render('admin/figure/edit.html.twig', [
             'formFigure' => $form->createView(),
             'figure' => $figure,
         ]);
     }
-
-    
 
     /**
      * @Route("/admin/figure/{id}", name="figure_delete", methods="DELETE")

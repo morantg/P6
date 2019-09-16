@@ -30,20 +30,13 @@ class FigureType extends AbstractType
                 'class' => Groupe::class,
                 'choice_label' => 'nom'
                 ])
-            ->add('media0', Filetype::class, [
-                'mapped' => false,
-                'required' => false,
-                'label' => 'media 1',
-            ])
-            ->add('media1', Filetype::class, [
-                'mapped' => false,
-                'required' => false,
-                'label' => 'media 2',
-            ])
-            ->add('media2', Filetype::class, [
-                'mapped' => false,
-                'required' => false,
-                'label' => 'media 3',
+            ->add('media', CollectionType::class, [
+                'entry_type' => MediaType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'by_reference' => false,
+                'allow_delete' => true,
+                'label' => false,
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer'
