@@ -60,6 +60,7 @@ class AdminFigureController extends AbstractController
             
             $manager->persist($figure);
             $manager->flush();
+            $this->addFlash('success', 'Figure créé avec succès');
             
             return $this->redirectToRoute('figure_show', [
                 'id' => $figure->getId(),
@@ -124,6 +125,7 @@ class AdminFigureController extends AbstractController
             }
             $manager->persist($figure);
             $manager->flush();
+            $this->addFlash('success', 'Figure modifié avec succès');
             
             return $this->redirectToRoute('figure_show', [
                 'id' => $figure->getId(),
@@ -149,8 +151,9 @@ class AdminFigureController extends AbstractController
             }
             $manager->remove($figure);
             $manager->flush();
+            $this->addFlash('success', 'Figure supprimé avec succès');
         }
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('figure_user');
     }
 
     /**

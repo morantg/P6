@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block body %}
-
+<div class="container mt-4">
     <h1>Creation d'une Figure</h1>
 
     {{ form_start(formFigure)}}
@@ -20,11 +20,7 @@
         {{ form_row(formFigure.image_une) }}
         {{ form_row(formFigure.groupe) }}
         <h3>Média</h3>
-        <ul class="media" data-prototype="{{ form_widget(formFigure.media.vars.prototype)|e('html_attr') }}">
-            {% for medium in formFigure.media %}
-                <li>{{ form_widget(form.media.vars.prototype.url)|e }}</li>
-            {% endfor %}
-        </ul>
+        <ul class="media" data-prototype="{{ form_widget(formFigure.media.vars.prototype)|e('html_attr') }}"></ul>
     {{ form_end(formFigure)}}
-
+</div>
 {% endblock %}

@@ -1,7 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Connexion
+<div class="container">
+    <h1>Connexion</h1>
+    {% if error %}
+      <div class="alert alert-danger">
+        {{ error.messageKey | trans(error.messagedata, 'security') }}
+      </div>
+    {% endif %}
     <form action="{{ path('user_login') }}" method="post">
         <div class="form-group">
             <input placeholder="email ..." required name="_username" type="text" class="form-control">
@@ -13,7 +19,8 @@
             <button type="submit" class="btn btn-primary">Connexion</button>
         </div>
     </form>
-    </h1>
+</div>    
+    
 
 
 {% endblock %}

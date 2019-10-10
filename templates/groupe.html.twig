@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+   <link href="{{ asset('css/home.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h2>Les figures du groupe {{ groupe.nom }}</h2>
+        <div class="row">
+            {%for figure in figures %}
+            <div class="post col-xl-4" style="padding-top: 40px">
+                    <div class="post-thumbnail"><a href="{{ path('figure_show', {'id': figure.id, 'slug': figure.slug}) }}"><img src="{{ asset('uploads/' ~ figure.ImageUne) }}" alt="..." class="img-fluid"></a></div>
+                    <div class="post-details">
+                      <div class="post-meta d-flex justify-content-between">
+                        </div><a href="{{ path('figure_show', {'id': figure.id, 'slug': figure.slug}) }}">
+                        <h3 class="h4">{{ figure.nom }}</h3></a>
+                        <div class="post-footer d-flex align-items-center">
+                          <div class="title"><span>{{ figure.user.username }}</span></div>
+                          {% if figure.modifAt %}           
+                          <div class="date"><i class="icon-clock"></i>mis à jour le {{ figure.modifAt | date('d/m/Y') }}</div>
+                          {% else %}
+                          <div class="date"><i class="icon-clock"></i>ajouté le {{ figure.ajoutAt | date('d/m/Y') }}</div>
+                          {% endif %}
+                        <div class="comments meta-last"><i class="icon-comment"></i>{{ figure.comments | length }}</div>
+                      </div>
+                    </div>
+                </div>   
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
