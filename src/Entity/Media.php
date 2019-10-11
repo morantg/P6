@@ -35,6 +35,8 @@ class Media
 
     private $file;
 
+    private $video;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -72,6 +74,16 @@ class Media
     public function setFile(UploadedFile $file = null)
     {
       $this->file = $file;
+    }
+
+    public function getVideo()
+    {
+      return $this->video;
+    }
+  
+    public function setVideo(string $video)
+    {
+      $this->video = $video;
     }
 
     public function getFigures(): ?Figure

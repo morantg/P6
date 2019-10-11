@@ -17,6 +17,9 @@ class MediaType extends AbstractType
             ->add('file', FileType::class, [
                 'required' => false,
             ])
+            ->add('video', TextType::class, [
+                'required' => false,
+            ])
         ;
     }
 

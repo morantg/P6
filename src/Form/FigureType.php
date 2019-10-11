@@ -38,6 +38,14 @@ class FigureType extends AbstractType
                 'allow_delete' => true,
                 'label' => false,
             ])
+            ->add('video', CollectionType::class, [
+                'entry_type' => MediaType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'by_reference' => false,
+                'allow_delete' => true,
+                'label' => false,
+            ])
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer'
             ])

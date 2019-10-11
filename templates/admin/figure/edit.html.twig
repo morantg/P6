@@ -17,7 +17,10 @@
         {{ form_row(formFigure.image_une) }}
         {{ form_row(formFigure.description) }}
         {{ form_row(formFigure.groupe) }}
-        {{ form_row(formFigure.media) }}
+        {% for test in formFigure.media %}
+            <h3>Media numéro {{ loop.index }}</h3>
+            {{ form_row(test) }}
+        {% endfor %}
     {{ form_end(formFigure)}}
 
     <form method="post" action="{{ path('figure_delete', {id: figure.id}) }}" onsubmit="return confirm('Êtes vous vraiment sûr ?')">

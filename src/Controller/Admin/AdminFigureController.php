@@ -46,7 +46,7 @@ class AdminFigureController extends AbstractController
             $figure->setImageUne($fileName);
            
             $uploadedMedia = $form['media']->getData();
-           
+
             foreach ($uploadedMedia as $uploadedMedium ){
                 $uploadedMedia = $uploadedMedium->getFile();
                 $fileMediaName = md5(uniqid()).'.'.$uploadedMedia->guessExtension();
@@ -56,6 +56,14 @@ class AdminFigureController extends AbstractController
                 );
                 $uploadedMedium->setUrl($fileMediaName);
                 $uploadedMedium->setFormat('image');
+            }
+
+            $uploadedVideos = $form['video']->getData();
+           
+            foreach ($uploadedVideos as $uploadedVideo ){
+                $uploadedVideo->setUrl($uploadedVideo->getVideo());
+                $uploadedVideo->setFormat('video');
+                $figure->addMedium($uploadedVideo);
             }
             
             $manager->persist($figure);
@@ -110,7 +118,8 @@ class AdminFigureController extends AbstractController
             }
             //upload des media
             $media = $figure->getMedia();
-
+            
+            //upload des images
             foreach($media as $medium){
                 $uploadedMedia = $medium->getFile();
                 if($uploadedMedia){
@@ -121,6 +130,13 @@ class AdminFigureController extends AbstractController
                         $fileMediaName
                     );
                     $medium->setUrl($fileMediaName);
+                }
+            }
+            //upload des vidéos
+            foreach($media as $medium){
+                $uploadedVideo = $medium->getVideo();
+                if($uploadedVideo){
+                   $medium->setUrl($uploadedVideo);
                 }
             }
             $manager->persist($figure);

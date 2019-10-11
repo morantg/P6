@@ -67,6 +67,8 @@ class Figure
      */
     private $comments;
 
+    public $video;
+
   
     public function __construct()
     {

@@ -18,11 +18,16 @@
         {%for image in figure.media %}
             <div class="responsive">
                 <div class="gallery">
+                    {% if '.jpeg' in image.url %}
                     <a href="{{ asset('uploads/' ~ image.url) }}" target="_blank"><img src="{{ asset('uploads/' ~ image.url) }}" class="galerie"></a>
+                    {% else %}
+                    <div class="iframe-resp">{{ image.url | raw }}</div>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}
     <div class="clearfix"></div>
+    
     <div class="post-details">
         <h1>{{ figure.nom}}</h1>
         <div class="post-footer d-flex align-items-center flex-column flex-sm-row">
