@@ -7,23 +7,23 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="all,follow">
-        <link href="{{ asset('css/base.css') }}" rel="stylesheet" />
+        <link rel="stylesheet" href="{{ asset('css/base.css') }}" rel="stylesheet" />
         <!-- Bootstrap CSS-->
-        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('template_css/bootstrap.min.css') }}">
         <!-- Font Awesome CSS-->
-        <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('template_css/font-awesome.min.css') }}">
         <!-- Custom icon font-->
-        <link rel="stylesheet" href="{{ asset('css/fontastic.css') }}">
+        <link rel="stylesheet" href="{{ asset('template_css/fontastic.css') }}">
         <!-- Google fonts - Open Sans-->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
         <!-- Fancybox-->
-        <link rel="stylesheet" href="{{ asset('@fancyapps/fancybox/jquery.fancybox.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('template_js/jquery.fancybox.min.js') }}">
         <!-- theme stylesheet-->
-        <link rel="stylesheet" href="{{ asset('css/style.default.css') }}" id="theme-stylesheet">
+        <link rel="stylesheet" href="{{ asset('template_css/style.default.css') }}" id="theme-stylesheet">
         <!-- Custom stylesheet - for your changes-->
-        <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+        <link rel="stylesheet" href="{{ asset('template_css/custom.css') }}">
         <!-- Favicon-->
-        <link rel="shortcut icon" href="favicon.png">
+        <!--<link rel="shortcut icon" href="favicon.png">-->
         <!--<link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css">-->
         {% block stylesheets %}{% endblock %}
     </head>
@@ -94,7 +94,15 @@
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous">
         </script>
+        <!-- JavaScript files-->
+        <script src="{{ asset('template_js/jquery.min.js') }}"></script>
+        <script src="{{ asset('template_js/popper.min.js') }}"> </script>
+        <script src="{{ asset('template_js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('template_js/jquery.cookie.js') }}"> </script>
+        <script src="{{ asset('template_js/jquery.fancybox.min.js') }}"></script>
+        <script src="{{ asset('template_js/front.js') }}"></script>
         {% block javascripts %}{% endblock %}
         </div>
     </body>
 </html>
+
