@@ -107,7 +107,7 @@ function addVideoForm($collectionHolder2, $newLinkLiVid) {
 }
 
 function addTagFormDeleteLink($tagFormLi) {
-    var $removeFormButton = $('<button type="button" class="btn btn-danger">Delete this media</button>');
+    var $removeFormButton = $('<button type="button" class="btn btn-danger">Supprimé</button>');
     $tagFormLi.append($removeFormButton);
 
     $removeFormButton.on('click', function(e) {

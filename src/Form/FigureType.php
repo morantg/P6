@@ -9,6 +9,8 @@ use App\Form\MediaType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -18,6 +20,23 @@ class FigureType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /** @var Figure|null $figure */
+        $figure = $options['data'] ?? null;
+        $isEdit = $figure && $figure->getId();
+        
+
+        $imageConstraints = [
+            new Image([
+                'maxSize' => '5M'
+            ])
+        ];
+
+        if (!$isEdit) {
+            $imageConstraints[] = new NotNull([
+                'message' => 'Svp uploader une image',
+            ]);
+        }
+
         $builder
             ->add('nom')
             ->add('description')
@@ -25,6 +44,7 @@ class FigureType extends AbstractType
                 'label' => 'Image à la une',
                 'required' => false,
                 'mapped' => false,
+                'constraints' => $imageConstraints,
                 ])
             ->add('groupe', EntityType::class, [
                 'class' => Groupe::class,
