@@ -8,6 +8,8 @@ use App\Entity\Figure;
 use App\Entity\Groupe;
 use App\Form\FigureType;
 use App\Repository\FigureRepository;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\File\File;
@@ -161,8 +163,22 @@ class AdminFigureController extends AbstractController
      */
     public function delete(Figure $figure, Request $request, ObjectManager $manager) {
         if ($this->isCsrfTokenValid('delete' . $figure->getId(), $request->get('_token'))) {
+            
+            $filename = $figure->getImageUne();
+            $filesystem = new Filesystem();
+            $filesystem->remove(
+                $this->getParameter('upload_directory') . '/' . $filename
+                );
+
+           
+            //dump($filesystem);
+            //die();
+             
             $media = $figure->getMedia();
             foreach($media as $medium){
+            /*$filename = $medium->getUrl();
+            $filesystem = new Filesystem();
+            $filesystem->remove($filename);*/
             $manager->remove($medium);
             }
             $manager->remove($figure);
