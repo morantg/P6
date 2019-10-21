@@ -1,7 +1,16 @@
 ul {
     list-style:none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 li {
     margin-right:15px;
+    margin-bottom: 15px;
 }
+
+.btn-danger{
+    margin-top: 10px;
+}
+

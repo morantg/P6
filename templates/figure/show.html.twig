@@ -5,42 +5,66 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ figure.nom }}</h1>
+<div class="container mt-4">
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+    {% endfor %}  
     <div>
-        <img classe="image_une" src="{{ asset('uploads/' ~ figure.ImageUne) }}">
+        <img classe="image_une" src="{{ asset('uploads/' ~ figure.ImageUne) }}" style="max-width: 100%;">
     </div>
     <br>
         {%for image in figure.media %}
             <div class="responsive">
                 <div class="gallery">
+                    {% if '.jpeg' in image.url %}
                     <a href="{{ asset('uploads/' ~ image.url) }}" target="_blank"><img src="{{ asset('uploads/' ~ image.url) }}" class="galerie"></a>
-                    <div class="desc">description de l'image</div>
+                    {% else %}
+                    <div class="iframe-resp">{{ image.url | raw }}</div>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}
     <div class="clearfix"></div>
-    <div>
-        {{ figure.description | raw }}
+    
+    <div class="post-details">
+        <h1>{{ figure.nom}}</h1>
+        <div class="post-footer d-flex align-items-center flex-column flex-sm-row">
+            <div class="title"><span>{{ figure.user.username }}</span></div>
+            <div class="d-flex align-items-center flex-wrap">
+            {% if figure.modifAt %}           
+            <div class="date"><i class="icon-clock"></i>mis à jour le {{ figure.modifAt | date('d/m/Y') }}</div>
+            {% else %}
+            <div class="date"><i class="icon-clock"></i>ajouté le {{ figure.ajoutAt | date('d/m/Y') }}</div>
+            {% endif %}
+            <div class="comments meta-last"><i class="icon-comment"></i>{{ figure.comments | length }}</div>
+        </div>
+    </div>       
+
+
+    <div style="margin-top: 30px">
+        {{ figure.description | raw | nl2br }}
     </div>
     <hr>
-   <ol class="breadcrumb">
-        <li class="breadcrumb-item">dans le groupe {{ figure.groupe.nom}}</li>
-        <li class="breadcrumb-item">Ajouté le {{ figure.ajoutAt | date('d/m/Y') }} à {{ figure.ajoutAt | date('H:i') }}</li>
-        {% if figure.modifAt %}
-            <li class="breadcrumb-item">Modifié le {{ figure.modifAt | date('d/m/Y') }} à {{ figure.modifAt | date('H:i') }}</li>
-        {% endif %}   
-    </ol>
-    <section id="commentaires">
-        <h2>{{ figure.comments | length }} Commentaires :</h2>
+   
+
+    <div class="post-tags"><a href="{{ path('groupe_index', {'id': figure.groupe.id }) }}" class="tag">{{ figure.groupe.nom }}</a></div>
+    
+        <div class="post-comments">
+        <header>
+            <h3 class="h6">Post Comments<span class="no-of-comments">({{ figure.comments | length }})</span></h3>
+        </header>
         {% for comment in figure.comments %}
         <div class="comment">
-            <div class="row">
-                <div class="col-3">
-                    {{ comment.user.username }}
+            <div class="comment-header d-flex justify-content-between">
+                <div class="user d-flex align-items-center">
+                <div class="image"><img src="{{ asset('img/user.svg') }}" alt="..." class="img-fluid rounded-circle"></div>
+                <div class="title"><strong>{{ comment.user.username }}</strong><span class="date">May 2016</span></div>
                 </div>
-                <div class="col">
-                    {{ comment.content | raw }}
-                </div>
+            </div>
+            <div class="comment-body">
+                <p>{{ comment.content | raw }}</p>
             </div>
         </div>
         {% endfor %}
@@ -48,10 +72,13 @@
         {% if app.user %}
         {{ form_start(commentForm) }}
         {{ form_row(commentForm.content) }}
-        <button type="submit" class="btn btn-success">Commenter !</button>
+        <button type="submit" class="btn btn-secondary">Commenter !</button>
         {{ form_end(commentForm) }}
         {% else %}
         <a href="{{ path('user_login') }}"><h3>Connectez-vous pour laisser un message !</h3></a>
         {% endif %}
-    </section>
+        </div>
+    
+</div>    
 {% endblock %}
+

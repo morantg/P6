@@ -2,52 +2,106 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="all,follow">
+        <link rel="stylesheet" href="{{ asset('css/base.css') }}" rel="stylesheet" />
+        <!-- Bootstrap CSS-->
+        <link rel="stylesheet" href="{{ asset('template_css/bootstrap.min.css') }}">
+        <!-- Font Awesome CSS-->
+        <link rel="stylesheet" href="{{ asset('template_css/font-awesome.min.css') }}">
+        <!-- Custom icon font-->
+        <link rel="stylesheet" href="{{ asset('template_css/fontastic.css') }}">
+        <!-- Google fonts - Open Sans-->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+        <!-- Fancybox-->
+        <link rel="stylesheet" href="{{ asset('template_js/jquery.fancybox.min.js') }}">
+        <!-- theme stylesheet-->
+        <link rel="stylesheet" href="{{ asset('template_css/style.default.css') }}" id="theme-stylesheet">
+        <!-- Custom stylesheet - for your changes-->
+        <link rel="stylesheet" href="{{ asset('template_css/custom.css') }}">
+        <!-- Favicon-->
+        <!--<link rel="shortcut icon" href="favicon.png">-->
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <a class="navbar-brand" href="/">SnowTricks</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarColor01">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Acceuil</a>
-                    </li>
-                    {% if app.user %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('figure_create') }}">Création d'une figure</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('figure_user') }}">Mes figures</a>
-                    </li>
-                    {% endif %}
-                    {% if not app.user %}
-                    <li class="nav-item">
-                        <a href="{{ path('user_registration') }}" class="nav-link">Inscription</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ path('user_login') }}" class="nav-link">Connexion</a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a href="{{ path('user_logout') }}" class="nav-link">Déconnexion</a>
-                    </li>
-                    {% endif %}
-                </ul>
+        <div class="page-wrap">
+        
+            <header class="header">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container">
+                    <div class="navbar-header d-flex align-items-center justify-content-between">
+                        <a href="/" class="navbar-brand">SnowTricks</a>
+                        <button type="button" data-toggle="collapse" data-target="#navbarcollapse" aria-controls="navbarcollapse" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"><span></span><span></span><span></span></button>
+                    </div>    
+                    <div id="navbarcollapse" class="collapse navbar-collapse">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">Acceuil</a>
+                            </li>
+                            {% if app.user %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('figure_create') }}">Création d'une figure</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('figure_user') }}">Mes figures</a>
+                            </li>
+                            {% endif %}
+                            {% if not app.user %}
+                            <li class="nav-item">
+                                <a href="{{ path('user_registration') }}" class="nav-link">Inscription</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('user_login') }}" class="nav-link">Connexion</a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item">
+                                <a href="{{ path('user_logout') }}" class="nav-link">Déconnexion</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>    
+                </div>
+            </nav>
+        </header>
+        
+        
+        <main class="site-content">
+        {% block body %}{% endblock %}
+        </main>
+        
+        <footer class="main-footer site-footer">
+        <div class="copyrights">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                      <p>&copy; 2019. All rights reserved. SnowTricks.</p>
+                    </div>
+                    <div class="col-md-6 text-right">
+                      <p>Template By <a href="https://bootstrapious.com/p/bootstrap-carousel" class="text-white">Bootstrapious</a>
+                        <!-- Please do not remove the backlink to Bootstrap Temple unless you purchase an attribution-free license @ Bootstrap Temple or support us at http://bootstrapious.com/donate. It is part of the license conditions. Thanks for understanding :)                         -->
+                      </p>
+                    </div>
+                </div>
             </div>
-        </nav>
-        <div class="container">
-            {% block body %}{% endblock %}
         </div>
+        </footer>   
         <script
             src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous">
         </script>
+        <!-- JavaScript files-->
+        <script src="{{ asset('template_js/jquery.min.js') }}"></script>
+        <script src="{{ asset('template_js/popper.min.js') }}"> </script>
+        <script src="{{ asset('template_js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('template_js/jquery.cookie.js') }}"> </script>
+        <script src="{{ asset('template_js/jquery.fancybox.min.js') }}"></script>
+        <script src="{{ asset('template_js/front.js') }}"></script>
         {% block javascripts %}{% endblock %}
+        </div>
     </body>
 </html>
+

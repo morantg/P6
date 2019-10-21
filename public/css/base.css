@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+}
+
+.page-wrap {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.site-content {
+  flex: 1;
+}

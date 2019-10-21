@@ -9,6 +9,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
@@ -42,8 +43,13 @@ class UserController extends AbstractController
     /**
      * @Route("/connexion", name="user_login")
      */
-    public function login(){
-        return $this->render('user/login.html.twig');
+    public function login (AuthenticationUtils $authenticationUtils) {
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();
+        return $this->render('user/login.html.twig', [
+            'last_username' => $lastUsername,
+            'error' => $error
+        ]);
     }
 
     /**

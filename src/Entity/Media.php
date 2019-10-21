@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MediaRepository")
@@ -32,6 +33,10 @@ class Media
      */
     private $figures;
 
+    private $file;
+
+    private $video;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +64,26 @@ class Media
         $this->url = $url;
 
         return $this;
+    }
+
+    public function getFile()
+    {
+      return $this->file;
+    }
+  
+    public function setFile(UploadedFile $file = null)
+    {
+      $this->file = $file;
+    }
+
+    public function getVideo()
+    {
+      return $this->video;
+    }
+  
+    public function setVideo(string $video)
+    {
+      $this->video = $video;
     }
 
     public function getFigures(): ?Figure

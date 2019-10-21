@@ -1,58 +1,102 @@
 .image-une{
-    max-width: 100%;
-    height: auto;
+  max-width: 100%;
+  height: auto;
 }
 
 .galerie{
-    width: 160px;
-    height: 120px;
+  width: 160px;
+  height: 120px;
 }
 
-div.gallery {
-    border: 1px solid #ccc;
-  }
-  
-  div.gallery:hover {
-    border: 1px solid #777;
-  }
-  
-  div.gallery img {
-    width: 100%;
-    height: auto;
-  }
-  
-  div.desc {
-    padding: 15px;
-    text-align: center;
-  }
-  
-  * {
-    box-sizing: border-box;
-  }
+/*
+div.gallery{
+  border: 1px solid #ccc;
+}*/
 
-  .clearfix:after {
-    content: "";
-    display: table;
-    clear: both;
-    margin-bottom: 20px;
-  }
+/*
+div.gallery:hover{
+  border: 1px solid #777;
+}*/
 
- .responsive {
-    padding: 0 6px;
-    float: left;
-    width: 24.99999%;
+.iframe-resp{
+  position:relative;
+  overflow: hidden;
+  padding-top: 56.25%;
+}
+
+.iframe-resp iframe{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+div.gallery img{
+  width: 100%;
+  height: auto;
+}
+  
+div.desc{
+  padding: 15px;
+  text-align: center;
+}
+  
+*{
+  box-sizing: border-box;
+}
+
+.clearfix:after{
+  content: "";
+  display: table;
+  clear: both;
+  margin-bottom: 20px;
+}
+
+.responsive{
+  padding: 0 6px;
+  float: left;
+  width: 24.99999%;
+  margin: 6px 0;
+}
+
+.image img{
+  max-width: 40px;
+  min-width: 40px;
+  height: 40px;
+}
+
+.title strong{
+  display: block;
+  color: #555;
+}
+
+span.date{
+  font-size: 0.8em;
+  color: #999;
+}
+
+.comment-body p{
+  font-size: 0.95em;
+  color: #555;
+}
+
+h1{
+  color: #444;
+  line-height: 1.1em;
+}
+  
+  
+@media only screen and (max-width: 700px){
+  .responsive {
+    width: 49.99999%;
     margin: 6px 0;
   }
+}
   
-  @media only screen and (max-width: 700px) {
-    .responsive {
-      width: 49.99999%;
-      margin: 6px 0;
-    }
+@media only screen and (max-width: 500px){
+  .responsive{
+    width: 100%;
   }
-  
-  @media only screen and (max-width: 500px) {
-    .responsive {
-      width: 100%;
-    }
-  }
+}

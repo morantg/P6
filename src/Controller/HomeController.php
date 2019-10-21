@@ -7,6 +7,7 @@ use App\Entity\Media;
 use App\Entity\Figure;
 use App\Entity\Groupe;
 use App\Form\FigureType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\File\File;
@@ -24,10 +25,14 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index()
+    public function index(PaginatorInterface $paginator, Request $request)
     {
         $repo = $this->getDoctrine()->getRepository(Figure::class);
-        $figures = $repo->findAll();
+        $figures = $paginator->paginate(
+            $repo->findAll(),
+            $request->query->getInt('page',1),
+            12
+        );
         
         return $this->render('home/home.html.twig', [
             'controller_name' => 'HomeController',

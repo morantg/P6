@@ -8,6 +8,8 @@ use App\Entity\Figure;
 use App\Entity\Groupe;
 use App\Form\FigureType;
 use App\Repository\FigureRepository;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\File\File;
@@ -30,8 +32,9 @@ class AdminFigureController extends AbstractController
         $figure = new Figure();
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
-        
+
         if($form->isSubmitted() && $form->isValid()){
+
             $figure->setUser($user);
             $figure->setAjoutAt(new \Datetime);
             // upload de l'image à la une
@@ -43,23 +46,31 @@ class AdminFigureController extends AbstractController
                 $fileName
             );
             $figure->setImageUne($fileName);
-            //upload des media
-            for($i = 0; $i < 3; $i++){
-                $media = new Media();
-                $uploadedMedia = $form['media' . $i]->getData();
-                if($uploadedMedia){
-                    $fileMediaName = md5(uniqid()).'.'.$uploadedMedia->guessExtension();
-                    $uploadedMedia->move(
-                        $this->getParameter('upload_directory'),
-                        $fileMediaName
-                    );
-                    $media->setUrl($fileMediaName);
-                    $media->setFormat('image');
-                    $figure->addMedium($media);
-                }
+           
+            $uploadedMedia = $form['media']->getData();
+
+            foreach ($uploadedMedia as $uploadedMedium ){
+                $uploadedMedia = $uploadedMedium->getFile();
+                $fileMediaName = md5(uniqid()).'.'.$uploadedMedia->guessExtension();
+                $uploadedMedia->move(
+                    $this->getParameter('upload_directory'),
+                    $fileMediaName
+                );
+                $uploadedMedium->setUrl($fileMediaName);
+                $uploadedMedium->setFormat('image');
             }
+
+            $uploadedVideos = $form['video']->getData();
+           
+            foreach ($uploadedVideos as $uploadedVideo ){
+                $uploadedVideo->setUrl($uploadedVideo->getVideo());
+                $uploadedVideo->setFormat('video');
+                $figure->addMedium($uploadedVideo);
+            }
+            
             $manager->persist($figure);
             $manager->flush();
+            $this->addFlash('success', 'Figure créé avec succès');
             
             return $this->redirectToRoute('figure_show', [
                 'id' => $figure->getId(),
@@ -109,8 +120,10 @@ class AdminFigureController extends AbstractController
             }
             //upload des media
             $media = $figure->getMedia();
-            foreach($media as $a => $medium){
-                $uploadedMedia = $form['media' . $a]->getData();
+            
+            //upload des images
+            foreach($media as $medium){
+                $uploadedMedia = $medium->getFile();
                 if($uploadedMedia){
                     $fileMediaName = md5(uniqid()).'.'.$uploadedMedia->guessExtension();
 
@@ -121,18 +134,27 @@ class AdminFigureController extends AbstractController
                     $medium->setUrl($fileMediaName);
                 }
             }
+            //upload des vidéos
+            foreach($media as $medium){
+                $uploadedVideo = $medium->getVideo();
+                if($uploadedVideo){
+                   $medium->setUrl($uploadedVideo);
+                }
+            }
             $manager->persist($figure);
             $manager->flush();
+            $this->addFlash('success', 'Figure modifié avec succès');
             
-            return $this->redirectToRoute('figure_show', ['id' => $figure->getId()]);
+            return $this->redirectToRoute('figure_show', [
+                'id' => $figure->getId(),
+                'slug' => $figure->getSlug()
+            ], 301);
         }
         return $this->render('admin/figure/edit.html.twig', [
             'formFigure' => $form->createView(),
             'figure' => $figure,
         ]);
     }
-
-    
 
     /**
      * @Route("/admin/figure/{id}", name="figure_delete", methods="DELETE")
@@ -141,14 +163,29 @@ class AdminFigureController extends AbstractController
      */
     public function delete(Figure $figure, Request $request, ObjectManager $manager) {
         if ($this->isCsrfTokenValid('delete' . $figure->getId(), $request->get('_token'))) {
+            
+            $filename = $figure->getImageUne();
+            $filesystem = new Filesystem();
+            $filesystem->remove(
+                $this->getParameter('upload_directory') . '/' . $filename
+                );
+
+           
+            //dump($filesystem);
+            //die();
+             
             $media = $figure->getMedia();
             foreach($media as $medium){
+            /*$filename = $medium->getUrl();
+            $filesystem = new Filesystem();
+            $filesystem->remove($filename);*/
             $manager->remove($medium);
             }
             $manager->remove($figure);
             $manager->flush();
+            $this->addFlash('success', 'Figure supprimé avec succès');
         }
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('figure_user');
     }
 
     /**

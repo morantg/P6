@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block body %}
-
+<div class="container mt-4">
     <h1>Creation d'une Figure</h1>
 
     {{ form_start(formFigure)}}
@@ -19,9 +19,9 @@
         {{ form_row(formFigure.description) }}
         {{ form_row(formFigure.image_une) }}
         {{ form_row(formFigure.groupe) }}
-        {{ form_row(formFigure.media0) }}
-        {{ form_row(formFigure.media1) }}
-        {{ form_row(formFigure.media2) }}
+        <h3>Média</h3>
+        <ul class="media" data-prototype="{{ form_widget(formFigure.media.vars.prototype.file)|e('html_attr') }}"></ul>
+        <ul class="video" data-prototype="{{ form_widget(formFigure.video.vars.prototype.video)|e('html_attr') }}"></ul>
     {{ form_end(formFigure)}}
-
+</div>
 {% endblock %}
