@@ -68,22 +68,22 @@ class Media
 
     public function getFile()
     {
-      return $this->file;
+        return $this->file;
     }
   
     public function setFile(UploadedFile $file = null)
     {
-      $this->file = $file;
+        $this->file = $file;
     }
 
     public function getVideo()
     {
-      return $this->video;
+        return $this->video;
     }
   
     public function setVideo(string $video)
     {
-      $this->video = $video;
+        $this->video = $video;
     }
 
     public function getFigures(): ?Figure

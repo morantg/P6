@@ -19,14 +19,16 @@ class GroupeController extends AbstractController
         
         $figures = $paginator->paginate(
             $groupe->getFigures(),
-            $request->query->getInt('page',1),
+            $request->query->getInt('page', 1),
             5
         );
         
-        return $this->render('groupe.html.twig', [
+        return $this->render(
+            'groupe.html.twig', [
             'controller_name' => 'GroupeController',
             'figures' => $figures,
             'groupe' => $groupe
-        ]);
+            ]
+        );
     }
 }

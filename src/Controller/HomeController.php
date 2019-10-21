@@ -30,13 +30,15 @@ class HomeController extends AbstractController
         $repo = $this->getDoctrine()->getRepository(Figure::class);
         $figures = $paginator->paginate(
             $repo->findAll(),
-            $request->query->getInt('page',1),
+            $request->query->getInt('page', 1),
             12
         );
         
-        return $this->render('home/home.html.twig', [
+        return $this->render(
+            'home/home.html.twig', [
             'controller_name' => 'HomeController',
             'figures' => $figures
-        ]);
+            ]
+        );
     }
 }

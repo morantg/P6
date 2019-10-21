@@ -30,31 +30,37 @@ class FigureController extends AbstractController
     public function show(Figure $figure, string $slug, Request $request, ObjectManager $manager, UserInterface $user = null)
     {
         if ($figure->getSlug() !== $slug) {
-            return $this->redirectToRoute('figure_show', [
+            return $this->redirectToRoute(
+                'figure_show', [
                 'id' => $figure->getId(),
                 'slug' => $figure->getSlug()
-            ], 301);
+                ], 301
+            );
         }
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $comment->setCreatedAt(new \DateTime())
-                    ->setFigure($figure)
-                    ->setUser($user);
+                ->setFigure($figure)
+                ->setUser($user);
             $manager->persist($comment);
             $manager->flush();
 
-            return $this->redirectToRoute('figure_show', [
+            return $this->redirectToRoute(
+                'figure_show', [
                 'id' => $figure->getId(),
                 'slug' => $figure->getSlug()
-            ], 301);
+                ], 301
+            );
         }
         
-        return $this->render('figure/show.html.twig', [
+        return $this->render(
+            'figure/show.html.twig', [
             'figure' => $figure,
             'commentForm' => $form->createView()
-        ]);
+            ]
+        );
     }
 }

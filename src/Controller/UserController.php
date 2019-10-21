@@ -17,15 +17,16 @@ class UserController extends AbstractController
     /**
      * @Route("/inscription", name="user_registration")
      */
-    public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, UserInterface $user = null){
-        if ($user){
+    public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, UserInterface $user = null)
+    {
+        if ($user) {
             return $this->redirectToRoute('home');
         }
         $user = new User();
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $hash = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($hash);
             
@@ -34,26 +35,33 @@ class UserController extends AbstractController
 
             return $this->redirectToRoute('user_login');
         }
-        return $this->render('user/registration.html.twig', [
+        return $this->render(
+            'user/registration.html.twig', [
             'form' => $form->createView()
-        ]);
+            ]
+        );
 
     }
  
     /**
      * @Route("/connexion", name="user_login")
      */
-    public function login (AuthenticationUtils $authenticationUtils) {
+    public function login(AuthenticationUtils $authenticationUtils)
+    {
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
-        return $this->render('user/login.html.twig', [
+        return $this->render(
+            'user/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error
-        ]);
+            ]
+        );
     }
 
     /**
      * @Route("/deconnexion", name="user_logout")
      */
-    public function logout(){}
+    public function logout()
+    {
+    }
 }
