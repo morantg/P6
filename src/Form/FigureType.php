@@ -20,62 +20,81 @@ class FigureType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        /** @var Figure|null $figure */
+        /**
+* 
+         *
+ * @var Figure|null $figure 
+*/
         $figure = $options['data'] ?? null;
         $isEdit = $figure && $figure->getId();
         
 
         $imageConstraints = [
-            new Image([
+            new Image(
+                [
                 'maxSize' => '5M'
-            ])
+                ]
+            )
         ];
 
         if (!$isEdit) {
-            $imageConstraints[] = new NotNull([
+            $imageConstraints[] = new NotNull(
+                [
                 'message' => 'Svp uploader une image',
-            ]);
+                ]
+            );
         }
 
         $builder
             ->add('nom')
             ->add('description')
-            ->add('image_une', Filetype::class, [
+            ->add(
+                'image_une', Filetype::class, [
                 'label' => 'Image à la une',
                 'required' => false,
                 'mapped' => false,
                 'constraints' => $imageConstraints,
-                ])
-            ->add('groupe', EntityType::class, [
+                ]
+            )
+            ->add(
+                'groupe', EntityType::class, [
                 'class' => Groupe::class,
                 'choice_label' => 'nom'
-                ])
-            ->add('media', CollectionType::class, [
+                ]
+            )
+            ->add(
+                'media', CollectionType::class, [
                 'entry_type' => MediaType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'by_reference' => false,
                 'allow_delete' => true,
                 'label' => false,
-            ])
-            ->add('video', CollectionType::class, [
+                ]
+            )
+            ->add(
+                'video', CollectionType::class, [
                 'entry_type' => MediaType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'by_reference' => false,
                 'allow_delete' => true,
                 'label' => false,
-            ])
-            ->add('save', SubmitType::class, [
+                ]
+            )
+            ->add(
+                'save', SubmitType::class, [
                 'label' => 'Enregistrer'
-            ])
-        ;
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(
+            [
             'data_class' => Figure::class,
-        ]);
+            ]
+        );
     }
 }

@@ -16,14 +16,15 @@ class RegistrationType extends AbstractType
             ->add('username')
             ->add('email')
             ->add('password', PasswordType::class)
-            ->add('confirm_password', PasswordType::class)
-        ;
+            ->add('confirm_password', PasswordType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(
+            [
             'data_class' => User::class,
-        ]);
+            ]
+        );
     }
 }

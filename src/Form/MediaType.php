@@ -15,26 +15,33 @@ class MediaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $imageConstraints = [
-            new Image([
+            new Image(
+                [
                 'maxSize' => '5M'
-            ])
+                ]
+            )
         ];
         
         $builder
-            ->add('file', FileType::class, [
+            ->add(
+                'file', FileType::class, [
                 'required' => false,
                 'constraints' => $imageConstraints,
-            ])
-            ->add('video', TextType::class, [
+                ]
+            )
+            ->add(
+                'video', TextType::class, [
                 'required' => false,
-            ])
-        ;
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(
+            [
             'data_class' => Media::class,
-        ]);
+            ]
+        );
     }
 }
