@@ -2,8 +2,10 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\User;
 use App\Entity\Media;
 use App\Entity\Figure;
+use App\Entity\Groupe;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -13,7 +15,19 @@ class FigureFixtures extends Fixture
     {
         
         $faker = \Faker\Factory::create('fr_FR');
+        $user = new User();
+        $user->setUsername('luc')
+             ->setEmail('luc@gmail.com')
+             ->setPassword('$2y$13$qxgSw.71lIIQvIq128xI4.SyTdoqyXZgNTGkWGHrjI3fYebZ1dqFi');
+             
+        $manager->persist($user);
+        
+        $groupe = new Groupe();
+        $groupe->setNom('mongroupe');
 
+        $manager->persist($groupe);
+
+        
         // Création de 10 figures
         for($i = 0; $i <= 10; $i++){
             $figure = new Figure();
@@ -24,17 +38,18 @@ class FigureFixtures extends Fixture
 
             $figure->setNom($faker->word(10))
                    ->setDescription($content)
-                   ->setGroupe($faker->word(10))
+                   ->setGroupe($groupe)
                    ->setAjoutAt($faker->dateTimeBetween('-6 months'))
-                   ->setImageUne($faker->imageUrl());
+                   ->setImageUne('http://via.placeholder.com/640x360')
+                   ->setUser($user);
 
             $manager->persist($figure);
             
             // Création de 2 à 6 média
-            for($j = 0; $j <= mt_rand(4,8); $j++){
+            for($j = 0; $j <= mt_rand(2,4); $j++){
                 $media = new Media();
                 $media->setFormat('jpg')
-                      ->setUrl($faker->imageUrl())
+                      ->setUrl('http://via.placeholder.com/640x360')
                       ->setFigures($figure);
                       
                 $manager->persist($media);      
