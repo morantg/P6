@@ -18,4 +18,4 @@
 ###< symfony/web-server-bundle ###
 
 /public/uploads/
-/public/img/
+/src/Migrations/
