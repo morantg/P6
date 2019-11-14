@@ -21,6 +21,7 @@
         {{ form_row(formFigure.groupe) }}
         <h3>Média</h3>
         <ul class="media" data-prototype="{{ form_widget(formFigure.media.vars.prototype.file)|e('html_attr') }}"></ul>
+        <p>Ajoutez une vidéo avec une balise html. (exemple : pour ajouter une vidéo youtube, click droit sur la vidéo et copier le code d'intégration.)</p>
         <ul class="video" data-prototype="{{ form_widget(formFigure.video.vars.prototype.video)|e('html_attr') }}"></ul>
     {{ form_end(formFigure)}}
 </div>

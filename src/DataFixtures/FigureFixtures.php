@@ -48,7 +48,7 @@ class FigureFixtures extends Fixture
             // Création de 2 à 6 média
             for($j = 0; $j <= mt_rand(2,4); $j++){
                 $media = new Media();
-                $media->setFormat('jpg')
+                $media->setFormat('image')
                       ->setUrl('http://via.placeholder.com/640x360')
                       ->setFigures($figure);
                       

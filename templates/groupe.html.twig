@@ -10,7 +10,13 @@
         <div class="row">
             {%for figure in figures %}
             <div class="post col-xl-4" style="padding-top: 40px">
-                    <div class="post-thumbnail"><a href="{{ path('figure_show', {'id': figure.id, 'slug': figure.slug}) }}"><img src="{{ asset('uploads/' ~ figure.ImageUne) }}" alt="..." class="img-fluid"></a></div>
+                    <div class="post-thumbnail"><a href="{{ path('figure_show', {'id': figure.id, 'slug': figure.slug}) }}">
+                      {% if 'placeholder' in figure.ImageUne %}
+                        <img src="{{ figure.ImageUne }}" alt="..." class="img-fluid"></a>
+                      {% else %}     
+                        <img src="{{ asset('uploads/' ~ figure.ImageUne) }}" alt="..." class="img-fluid"></a>
+                      {% endif %}   
+                    </div>
                     <div class="post-details">
                       <div class="post-meta d-flex justify-content-between">
                         </div><a href="{{ path('figure_show', {'id': figure.id, 'slug': figure.slug}) }}">
