@@ -36,12 +36,14 @@ Ajoutez ces fichier dans votre projet en choisissant l'option copier et remplace
 
 - Installer les librairy faker et knp Paginator avec les commandes suivante :
 > composer require fzaninotto/faker
+
 > composer require knplabs/knp-paginator-bundle 
 
 ## Etape 6    
 
 - Réalisez la migration de votre base de donnée avec les commandes suivantes :
 > php bin/console make:migration
+
 > php bin/console doctrine:migrations:migrate
 
 ## Etape 7 (optionnel)    
