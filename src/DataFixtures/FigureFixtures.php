@@ -16,9 +16,9 @@ class FigureFixtures extends Fixture
         
         $faker = \Faker\Factory::create('fr_FR');
         $user = new User();
-        $user->setUsername('luc')
-             ->setEmail('luc@gmail.com')
-             ->setPassword('$2y$13$qxgSw.71lIIQvIq128xI4.SyTdoqyXZgNTGkWGHrjI3fYebZ1dqFi');
+        $user->setUsername('test')
+             ->setEmail('test@gmail.com')
+             ->setPassword('$2y$13$vtgqKAtTOc.A7RxKIuRc6uhcQrOcbJU0/X8kgTbEvVsT9LJYzSKN.');
              
         $manager->persist($user);
         
